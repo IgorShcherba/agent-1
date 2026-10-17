@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentStatus",
+  "description": "Response from GET /v1/status. The scaffold opens persistent storage but has no chat provider yet.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "conversationId", "agent", "capabilities"],
+  "properties": {
+    "version": { "const": 1 },
+    "conversationId": { "type": "string", "minLength": 1 },
+    "agent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state"],
+      "properties": { "state": { "const": "not_configured" } }
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["chat", "backgroundTasks"],
+      "properties": {
+        "chat": { "const": false },
+        "backgroundTasks": { "const": false }
+      }
+    }
+  }
+}
