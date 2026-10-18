@@ -13,7 +13,7 @@ The vacation demo's searches are simulated. Its v1.0.0 API also differs from our
 ## Milestones
 
 1. **Scaffold:** Yarn workspaces, persistent empty harness, server health/status, terminal connection, Docker, and a native iOS shell.
-2. **Chat:** choose a provider and model; define submission and streaming contracts; add the first terminal conversation.
+2. **Chat:** custom provider configuration and explicit connection checks are implemented; next define submission and streaming contracts and add the first terminal conversation.
 3. **Tools and recovery:** add one real read-only tool and verify recovery through an interrupted run and client reconnect.
 4. **Background work:** adapt the vacation research/report pattern; expose progress, steering, and explicit cancellation.
 5. **Proactive follow-ups:** persistent schedules, overdue behavior, preferences, and useful notifications.

@@ -31,7 +31,7 @@ export function createApi(agent: AgentRuntime) {
     sendJson(response, 200, {
       version: 1,
       conversationId: String(agent.conversationId),
-      agent: { state: "not_configured" },
+      agent: agent.configuration,
       capabilities: { chat: false, backgroundTasks: false },
     });
   });

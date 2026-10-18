@@ -1,11 +1,12 @@
 import { once } from "node:events";
+import { safeMessage } from "./agent/provider.js";
 import { openAgent } from "./agent/runtime.js";
 import { createApi } from "./api/server.js";
 import { readConfig } from "./config.js";
 
 async function main() {
   const config = readConfig();
-  const agent = await openAgent(config.databasePath);
+  const agent = await openAgent(config.databasePath, config.llm);
   const server = createApi(agent);
   let closing = false;
 
@@ -24,7 +25,7 @@ async function main() {
 
   const stop = () => {
     void shutdown().catch((error: unknown) => {
-      console.error("Shutdown failed:", error);
+      console.error("Shutdown failed:", safeMessage(error, config.llm));
       process.exitCode = 1;
     });
   };
@@ -32,7 +33,7 @@ async function main() {
   process.once("SIGTERM", stop);
   void agent.harness.closed.then((end) => {
     if (end.reason === "failed") {
-      console.error("Agent storage failed:", end.error);
+      console.error("Agent storage failed:", safeMessage(end.error, config.llm));
       return shutdown(1);
     }
   });
@@ -49,6 +50,6 @@ async function main() {
 }
 
 main().catch((error: unknown) => {
-  console.error(error);
+  console.error(safeMessage(error, { apiKey: process.env.LLM_API_KEY?.trim() }));
   process.exitCode = 1;
 });

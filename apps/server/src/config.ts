@@ -1,5 +1,6 @@
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { readLlmConfig } from "./agent/provider.js";
 
 const repositoryRoot = fileURLToPath(new URL("../../../", import.meta.url));
 
@@ -10,6 +11,7 @@ export function readConfig() {
   }
 
   return {
+    llm: readLlmConfig(),
     host: process.env.HOST ?? "127.0.0.1",
     port,
     databasePath: resolve(repositoryRoot, process.env.DATA_DIR ?? "data", "agent.sqlite"),

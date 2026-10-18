@@ -44,8 +44,12 @@ async function main() {
     tui.requestRender();
     try {
       const current = await getStatus(serverUrl);
+      const modelStatus =
+        current.agent.state === "configured"
+          ? `Model configured: ${current.agent.provider} / ${current.agent.modelId} (connection unchecked)`
+          : "Model setup required: set LLM_API_KEY on the server.";
       status.setText(
-        `Connected to ${serverUrl.origin}\nConversation: ${current.conversationId}\nChat is not configured yet.`,
+        `Connected to ${serverUrl.origin}\nConversation: ${current.conversationId}\n${modelStatus}\nChat is not implemented yet.`,
       );
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
@@ -79,7 +83,7 @@ async function main() {
       case "":
         break;
       default:
-        help.setText("Chat is not configured yet. Use /status, /help, or /quit.");
+        help.setText("Chat is not implemented yet. Use /status, /help, or /quit.");
     }
     tui.requestRender();
   };

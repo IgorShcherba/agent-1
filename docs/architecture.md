@@ -27,7 +27,9 @@ The terminal-to-server status connection exists today. Chat, streaming, backgrou
 - `src/storage/`: opens the persistent storage backend.
 - `src/config.ts`: validates environment configuration and keeps paths independent of the launch directory.
 
-The application creates one root conversation on first startup and reopens it on subsequent startups. No model provider is registered yet. The status endpoint advertises chat and background tasks as unavailable.
+The application creates one root conversation on first startup and reopens it on subsequent startups. The custom provider is registered only when `LLM_API_KEY` is present. Configured startup updates the root model explicitly and resumes scheduling. Setup mode keeps scheduling paused, including unfinished persisted work. A configured status reports local configuration rather than verified remote credentials. The status endpoint still advertises chat and background tasks as unavailable.
+
+The provider uses Pi 1.3.0 Chat Completions with Bearer authentication, text input, reasoning disabled, and conservative compatibility flags. An explicit `check:provider` command validates streamed connectivity without opening SQLite. Startup never submits a probe prompt; previously persisted work can resume after configured startup.
 
 ## Planned behavior
 

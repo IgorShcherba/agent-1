@@ -5,6 +5,10 @@ services:
     build:
       context: .
       dockerfile: apps/server/Dockerfile
+    environment:
+      LLM_API_KEY: ${LLM_API_KEY:-}
+      LLM_BASE_URL: ${LLM_BASE_URL:-https://api.callstack.ai/v1}
+      LLM_MODEL: ${LLM_MODEL:-callstack/Apex}
     init: true
     restart: unless-stopped
     ports:

@@ -1,26 +1,60 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "AgentStatus",
-  "description": "Response from GET /v1/status. The scaffold opens persistent storage but has no chat provider yet.",
+  "description": "Response from GET /v1/status. Configured means local provider setup, not verified connectivity.",
   "type": "object",
   "additionalProperties": false,
   "required": ["version", "conversationId", "agent", "capabilities"],
   "properties": {
-    "version": { "const": 1 },
-    "conversationId": { "type": "string", "minLength": 1 },
+    "version": {
+      "const": 1
+    },
+    "conversationId": {
+      "type": "string",
+      "minLength": 1
+    },
     "agent": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["state"],
-      "properties": { "state": { "const": "not_configured" } }
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["state"],
+          "properties": {
+            "state": {
+              "const": "not_configured"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["state", "provider", "modelId"],
+          "properties": {
+            "state": {
+              "const": "configured"
+            },
+            "provider": {
+              "const": "custom"
+            },
+            "modelId": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      ]
     },
     "capabilities": {
       "type": "object",
       "additionalProperties": false,
       "required": ["chat", "backgroundTasks"],
       "properties": {
-        "chat": { "const": false },
-        "backgroundTasks": { "const": false }
+        "chat": {
+          "const": false
+        },
+        "backgroundTasks": {
+          "const": false
+        }
       }
     }
   }

@@ -22,7 +22,9 @@
     "check": "yarn lint && yarn typecheck",
     "docker:up": "docker compose up --build -d",
     "docker:down": "docker compose down",
-    "docker:logs": "docker compose logs -f server"
+    "docker:logs": "docker compose logs -f server",
+    "check:provider": "yarn workspace @pi-durable-bot/server check:provider",
+    "test": "yarn workspace @pi-durable-bot/server test"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15"
